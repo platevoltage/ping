@@ -108,7 +108,7 @@ function App() {
           <button style={buttonStyle} disabled={disableGo} onClick={handleCopy}>Copy to Clipboard</button>
         </div>
       </div>
-      <div style={{backgroundColor: "#000000", border: "1px solid #ffffff55",width: "50%", margin: 10, padding: 10, overflow: "scroll"}}>
+      <div style={{backgroundColor: "#000000", border: "1px solid #ffffff55",width: "50%", margin: 10, padding: 10, overflowX: "scroll"}}>
         <pre>
           {
             ipArray.map((ip, i) => {
