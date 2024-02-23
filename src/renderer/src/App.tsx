@@ -97,10 +97,10 @@ function App() {
 
 
   return (
-    <div className="container" style={{display: "flex", flexDirection: "row"}}>
-      <div style={{margin: 10}}>
-        <div>
-          <textarea style={{padding: 10, resize: "none", backgroundColor: "#000000", color: "#86a5b1"}} rows={30} cols={30} value={text} onChange={(e) => setText(e.target.value)}></textarea>
+    <div style={{display: "flex", flexDirection: "row", height: "100vh"}}>
+      <div style={{margin: 10, width: "50%", height: "100%"}}>
+        <div style={{marginRight: 10, height: "calc(100% - 100px", marginBottom: "30px"}}>
+          <textarea style={{padding: 10, resize: "none", backgroundColor: "#000000", color: "#86a5b1", width: "100%", height: "100%"}} value={text} onChange={(e) => setText(e.target.value)}></textarea>
         </div>
         <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
           <button style={buttonStyle} disabled={disableGo} onClick={handleGo}>Go</button>
@@ -108,7 +108,7 @@ function App() {
           <button style={buttonStyle} disabled={disableGo} onClick={handleCopy}>Copy to Clipboard</button>
         </div>
       </div>
-      <div style={{backgroundColor: "#000000", border: "1px solid #ffffff55",width: 800, margin: 10, padding: 10, height: 520, overflow: "scroll"}}>
+      <div style={{backgroundColor: "#000000", border: "1px solid #ffffff55",width: "50%", margin: 10, padding: 10, overflow: "scroll"}}>
         <pre>
           {
             ipArray.map((ip, i) => {

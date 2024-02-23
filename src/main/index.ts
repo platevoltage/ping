@@ -9,7 +9,7 @@ import path from "path";
 
 
 ipcMain.handle("ping", async (_: unknown, ip: string) => {
-  const windowsPingPath = path.join(process.env.SystemRoot, "System32", "ping.exe");
+  const windowsPingPath = path.join(process.env.SystemRoot || "", "System32", "ping.exe");
   const pingCommand = process.platform === "win32" ? windowsPingPath : "ping6";
   const pingArgs = process.platform === "win32" ? [] : ["-c 4"];
   console.log(ip);
