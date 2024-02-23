@@ -2,27 +2,53 @@ import { app, shell, BrowserWindow, ipcMain } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
-import { exec } from "child_process";
+import { spawn } from "child_process";
 
 
 
 ipcMain.handle("ping", async (_: unknown, ip: string) => {
-  const pingCommand = process.platform === "win32" ? "ping" : "ping6 -c 4";
+  const pingCommand = process.platform === "win32" ? "ping" : "ping6";
+  const pingArgs = process.platform === "win32" ? [] : ["-c 4"];
   console.log(ip);
   try {
-    return await new Promise((resolve, reject) => {
-      exec(`${pingCommand} ${ip}`, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`);
-          reject(error.message);
-        }
+    // return await new Promise((resolve, reject) => {
+    //   exec(`${pingCommand} ${ip}`, (error: any, stdout: any, stderr: any) => {
+    //     if (error) {
+    //       console.error(`Error: ${error.message}`);
+    //       reject(error.message);
+    //     }
 
-        if (stderr) {
-          console.error(`Error: ${stderr}`);
-          reject(stderr);
+    //     if (stderr) {
+    //       console.error(`Error: ${stderr}`);
+    //       reject(stderr);
+    //     }
+    //     console.log(`Ping Result:\n${stdout}`);
+    //     resolve(true);
+    //   });
+    // });
+    return await new Promise((resolve, reject) => {
+      console.log(ip);
+      const _spawn = spawn(pingCommand, [...pingArgs, ip]);
+      _spawn.stdout.on("data", (message) => {
+        if (message) {
+          console.log(message.toString());
         }
-        console.log(`Ping Result:\n${stdout}`);
-        resolve(true);
+        // reject();
+      });
+      // Listen for errors (if any)
+      _spawn.stderr.on("data", (data) => {
+        console.error(`Error: ${data}`);
+        reject(new Error());
+      });
+
+      // Listen for the process to exit
+      _spawn.on("close", (code) => {
+        console.log(`Ping process exited with code ${code}`);
+        if (code === 0) {
+          resolve(true);
+        } else {
+          reject(new Error());
+        }
       });
     });
   } catch (e) {
