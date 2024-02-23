@@ -97,7 +97,7 @@ function App() {
 
 
   return (
-    <div style={{display: "flex", flexDirection: "row", height: "100vh"}}>
+    <div style={{display: "flex", flexDirection: "row", height: "100vh", overflow: "hidden"}}>
       <div style={{margin: 10, width: "50%", height: "100%"}}>
         <div style={{marginRight: 10, height: "calc(100% - 100px", marginBottom: "30px"}}>
           <textarea style={{padding: 10, resize: "none", backgroundColor: "#000000", color: "#86a5b1", width: "100%", height: "100%"}} value={text} onChange={(e) => setText(e.target.value)}></textarea>
