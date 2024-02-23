@@ -3,20 +3,51 @@ import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import ping from "ping";
+import { exec } from "child_process";
 
+
+// ipcMain.handle("ping", async (_: unknown, ip: string) => {
+//   console.log(ip);
+//   const x = await new Promise((resolve, reject) => {
+//     ping.sys.probe(ip, (isAlive) => {
+//       const message = isAlive ? "Host is alive" : "Host is down";
+//       resolve(message);
+
+//     }, {
+//       // timeout: false,
+//       v6: true,
+//       // min_reply: 2,
+//       // sourceAddr: "your NIC's IPv6 address",
+//     });
+//   });
+
+//   console.log(x);
+//   return x;
+
+// });
 
 ipcMain.handle("ping", async (_: unknown, ip: string) => {
   console.log(ip);
-  const x = await new Promise((resolve, reject) => {
-    ping.sys.probe(ip, (isAlive) => {
-      const message = isAlive ? "Host is alive" : "Host is down";
-      resolve(message);
+  try {
+    return await new Promise((resolve, reject) => {
+      exec(`ping6 -c 4 ${ip}`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error: ${error.message}`);
+          reject(error.message);
+        }
 
+        if (stderr) {
+          console.error(`Error: ${stderr}`);
+          reject(stderr);
+        }
+        console.log(`Ping Result:\n${stdout}`);
+        resolve(true);
+      });
     });
-  });
-
-  console.log(x);
-  return x;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 
 });
 
