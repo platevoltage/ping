@@ -7,8 +7,7 @@ import { exec } from "child_process";
 
 
 ipcMain.handle("ping", async (_: unknown, ip: string) => {
-  // const pingCommand = process.platform !== "darwin" ? "ping6 -c 4" : "ping";
-  const pingCommand = "ping";
+  const pingCommand = process.platform === "win32" ? "ping" : "ping6 -c 4";
   console.log(ip);
   try {
     return await new Promise((resolve, reject) => {
