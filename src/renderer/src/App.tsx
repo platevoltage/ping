@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 function App() {
 
-  const [ text, setText ] = useState("2001:4860:4860::8888");
+  const [ text, setText ] = useState("");
   const [ ipArray, setIpArray ] = useState<string[]>([]);
   const [ results, setResults ] = useState<string[]>([]);
   const [ tasks, setTasks ] = useState<({index: number, task: () => Promise<string>})[]>([]);
@@ -10,8 +10,11 @@ function App() {
   const [ cancel, setCancel ] = useState(false);
 
   const buttonStyle = {
-    padding: 10,
-    margin: 4
+    // padding: 10,
+    // margin: 4,
+    // borderRadius: 5,
+    // border: "none",
+    // backgroundColor: "#9feaf9",
   };
 
 
@@ -97,13 +100,15 @@ function App() {
     <div className="container" style={{display: "flex", flexDirection: "row"}}>
       <div style={{margin: 10}}>
         <div>
-          <textarea style={{padding: 10}} rows={30} cols={30} value={text} onChange={(e) => setText(e.target.value)}></textarea>
+          <textarea style={{padding: 10, resize: "none", backgroundColor: "#000000", color: "#86a5b1"}} rows={30} cols={30} value={text} onChange={(e) => setText(e.target.value)}></textarea>
         </div>
-        <button style={buttonStyle} disabled={disableGo} onClick={handleGo}>Go</button>
-        <button style={buttonStyle} disabled={!disableGo} onClick={() => setCancel(true)}>Cancel</button>
-        <button style={buttonStyle} disabled={disableGo} onClick={handleCopy}>Copy to Clipboard</button>
+        <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
+          <button style={buttonStyle} disabled={disableGo} onClick={handleGo}>Go</button>
+          <button style={buttonStyle} disabled={!disableGo} onClick={() => setCancel(true)}>Cancel</button>
+          <button style={buttonStyle} disabled={disableGo} onClick={handleCopy}>Copy to Clipboard</button>
+        </div>
       </div>
-      <div style={{backgroundColor: "#000000", width: 800, margin: 10, padding: 10, height: 520, overflow: "scroll"}}>
+      <div style={{backgroundColor: "#000000", border: "1px solid #ffffff55",width: 800, margin: 10, padding: 10, height: 520, overflow: "scroll"}}>
         <pre>
           {
             ipArray.map((ip, i) => {

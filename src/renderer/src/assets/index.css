@@ -40,6 +40,16 @@ code {
     monospace;
   font-size: 85%;
 }
+button {
+  padding: 10px;
+  margin: 4px;
+  border-radius: 5px;
+  border: none;
+  background-color: #9feaf9
+}
+button:active {
+  background-color: #23444b
+}
 
 a {
   color: #9feaf9;
