@@ -2,29 +2,9 @@ import { app, shell, BrowserWindow, ipcMain } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
-import ping from "ping";
 import { exec } from "child_process";
 
 
-// ipcMain.handle("ping", async (_: unknown, ip: string) => {
-//   console.log(ip);
-//   const x = await new Promise((resolve, reject) => {
-//     ping.sys.probe(ip, (isAlive) => {
-//       const message = isAlive ? "Host is alive" : "Host is down";
-//       resolve(message);
-
-//     }, {
-//       // timeout: false,
-//       v6: true,
-//       // min_reply: 2,
-//       // sourceAddr: "your NIC's IPv6 address",
-//     });
-//   });
-
-//   console.log(x);
-//   return x;
-
-// });
 
 ipcMain.handle("ping", async (_: unknown, ip: string) => {
   console.log(ip);
@@ -55,7 +35,7 @@ function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
-    height: 670,
+    height: 650,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),

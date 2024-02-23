@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function App(): JSX.Element {
+function App() {
 
   const [ text, setText ] = useState("2001:4860:4860::8888");
   const [ ipArray, setIpArray ] = useState<string[]>([]);
@@ -8,6 +8,11 @@ function App(): JSX.Element {
   const [ tasks, setTasks ] = useState<({index: number, task: () => Promise<string>})[]>([]);
   const [ disableGo, setDisableGo ] = useState(false);
   const [ cancel, setCancel ] = useState(false);
+
+  const buttonStyle = {
+    padding: 10,
+    margin: 4
+  };
 
 
   useEffect(() => {
@@ -24,24 +29,6 @@ function App(): JSX.Element {
     }
 
     setTasks(promises);
-
-    // for (const i in promises) {
-    //   _results[i] = "TESTING";
-    //   setResults([..._results]);
-    //   try {
-    //     const x = await promises[i]();
-    //     console.log(x, i);
-    //     _results[i] = "OK";
-    //     setResults([..._results]);
-    //   } catch (e) {
-    //     _results[i] = "ERROR";
-    //     setResults([..._results]);
-    //     console.error(e);
-    //   }
-    // }
-
-    // setDisableGo(false);
-    // })();
 
   },[ipArray]);
 
@@ -86,27 +73,37 @@ function App(): JSX.Element {
     }
   }, [tasks, cancel]);
 
-  // useEffect(() => {
-  //   if (cancel) {
-  //     console.log("cancel");
-  //     setTasks([]);
-  //   }
-  // },[cancel]);
 
   async function handleGo() {
     const lines = text.trim().split("\n");
     setIpArray(lines);
   }
 
+  function handleCopy() {
+    let copyText = "";
+
+    for (const i in results) {
+      if (results[i] === "OK") {
+        copyText += ipArray[i] + "\n";
+      }
+    }
+
+    console.log(copyText);
+    navigator.clipboard.writeText(copyText);
+  }
+
 
   return (
-    <div className="container" style={{display: "flex", flexDirection: "row", border: "1px solid white"}}>
-      <div>
-        <textarea rows={30} value={text} onChange={(e) => setText(e.target.value)}></textarea>
-        <button disabled={disableGo} onClick={handleGo}>Go</button>
-        <button disabled={!disableGo} onClick={() => setCancel(true)}>Cancel</button>
+    <div className="container" style={{display: "flex", flexDirection: "row"}}>
+      <div style={{margin: 10}}>
+        <div>
+          <textarea style={{padding: 10}} rows={30} cols={30} value={text} onChange={(e) => setText(e.target.value)}></textarea>
+        </div>
+        <button style={buttonStyle} disabled={disableGo} onClick={handleGo}>Go</button>
+        <button style={buttonStyle} disabled={!disableGo} onClick={() => setCancel(true)}>Cancel</button>
+        <button style={buttonStyle} disabled={disableGo} onClick={handleCopy}>Copy to Clipboard</button>
       </div>
-      <div style={{backgroundColor: "#000000", width: 800, margin: 10}}>
+      <div style={{backgroundColor: "#000000", width: 800, margin: 10, padding: 10, height: 520, overflow: "scroll"}}>
         <pre>
           {
             ipArray.map((ip, i) => {
