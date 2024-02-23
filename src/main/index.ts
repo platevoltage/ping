@@ -3,11 +3,14 @@ import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import { spawn } from "child_process";
+import path from "path";
+
 
 
 
 ipcMain.handle("ping", async (_: unknown, ip: string) => {
-  const pingCommand = process.platform === "win32" ? "ping" : "ping6";
+  const windowsPingPath = path.join(process.env.SystemRoot, "System32", "ping.exe");
+  const pingCommand = process.platform === "win32" ? windowsPingPath : "ping6";
   const pingArgs = process.platform === "win32" ? [] : ["-c 4"];
   console.log(ip);
   try {
@@ -68,7 +71,8 @@ function createWindow(): void {
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: true
     }
   });
 
