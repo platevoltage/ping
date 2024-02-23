@@ -31,6 +31,10 @@ ipcMain.handle("ping", async (_: unknown, ip: string) => {
     // });
     return await new Promise((resolve, reject) => {
       console.log(ip);
+      setTimeout(() => {
+        console.log("timeout");
+        reject(new Error());
+      }, 4000);
       const _spawn = spawn(pingCommand, [...pingArgs, ip]);
       _spawn.stdout.on("data", (message) => {
         if (message) {
