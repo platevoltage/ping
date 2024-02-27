@@ -38,13 +38,20 @@ ipcMain.handle("ping", async (_: unknown, ip: string) => {
       const _spawn = spawn(pingCommand, [...pingArgs, ip]);
       _spawn.stdout.on("data", (message) => {
         if (message) {
-          console.log(message.toString());
+          const string = message.toString();
+          if (string.startsWith("16 bytes")) {
+            console.log("YES");
+            _spawn.kill(0);
+            resolve(true);
+          }
+          console.log(string);
         }
         // reject();
       });
       // Listen for errors (if any)
       _spawn.stderr.on("data", (data) => {
         console.error(`Error: ${data}`);
+        _spawn.kill(2);
         reject(new Error());
       });
 
