@@ -39,7 +39,7 @@ ipcMain.handle("ping", async (_: unknown, ip: string) => {
       _spawn.stdout.on("data", (message) => {
         if (message) {
           const string = message.toString();
-          if (string.startsWith("16 bytes")) {
+          if (string.startsWith("16 bytes") || string.startsWith("Reply from")) {
             console.log("YES");
             _spawn.kill(0);
             resolve(true);
