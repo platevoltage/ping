@@ -4,6 +4,8 @@ import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png?asset";
 import { spawn } from "child_process";
 import path from "path";
+import hello from "hello";
+import anderson from "anderson";
 
 
 
@@ -89,6 +91,11 @@ function createWindow(): void {
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();
+
+    hello();
+    anderson();
+
+
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

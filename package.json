@@ -22,6 +22,9 @@
   "dependencies": {
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
+    "anderson": "file:../../Downloads/anderson",
+    "hello": "file:../../Downloads/hello",
+    "node-ssh": "^13.2.0",
     "ping": "^0.4.4"
   },
   "devDependencies": {
@@ -41,6 +44,7 @@
     "prettier": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-copy": "^3.5.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.9"
   }
